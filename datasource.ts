@@ -1,13 +1,14 @@
+
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
 	type: 'oracle',
-	host: '127.0.0.1',
-	port: 1521,
-	username: 'C##SHOP',
-	password: '123456',
-	sid: 'xe',
+	host: process.env.ORACLE_HOST,
+	port: Number(process.env.ORACLE_PORT),
+	username: process.env.ORACLE_USERNAME,
+	password: process.env.ORACLE_PASSWORD,
+	sid: process.env.ORACLE_SID,
 	synchronize: true,
 	entities: ['dist/**/*.entity{.ts,.js}'],
 });

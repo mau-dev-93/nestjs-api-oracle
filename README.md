@@ -34,24 +34,29 @@ API REST para gestionar clientes, productos y órdenes de compra usando **NestJS
   ```
 4. Configura las variables de entorno en un archivo `.env`:
   ```env
-  ORACLE_USER=tu_usuario
+  ORACLE_HOST=host
+  ORACLE_PORT=port
+  ORACLE_USERNAME=tu_usuario
   ORACLE_PASSWORD=tu_contraseña
-  ORACLE_CONNECTION_STRING=host:puerto/servicio
+  ORACLE_SID=SID
   ```
 
 
 ## Ejemplo de conexión
 
 ```typescript
-import * as oracledb from 'oracledb';
+import { DataSource } from 'typeorm';
 
-async function getConnection() {
-  return await oracledb.getConnection({
-    user: process.env.ORACLE_USER,
-    password: process.env.ORACLE_PASSWORD,
-    connectionString: process.env.ORACLE_CONNECTION_STRING,
-  });
-}
+export const AppDataSource = new DataSource({
+	type: 'oracle',
+	host: process.env.ORACLE_HOST,
+	port: Number(process.env.ORACLE_PORT),
+	username: process.env.ORACLE_USERNAME,
+	password: process.env.ORACLE_PASSWORD,
+	sid: process.env.ORACLE_SID,
+	synchronize: true,
+	entities: ['dist/**/*.entity{.ts,.js}'],
+});
 ```
 
 ## Ejecución
